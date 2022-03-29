@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <router-view></router-view>
+    <el-backtop :right="100" :bottom="100" />
   </div>
 </template>
 
@@ -15,8 +16,9 @@ export default {
 
 <style>
 body{
-  margin:0px;
-  padding:0px;
+  margin:0;
+  padding:0;
+  background-color: #F6F6F6;
 }
 /*#app {*/
 /*  font-family: Avenir, Helvetica, Arial, sans-serif;*/

@@ -1,80 +1,48 @@
 <template>
 <div>
   <el-table :data="popular" style="width: 100%">
-    <el-table-column prop="name" label="最热门" />
+    <el-table-column prop="title" label="热度最高" />
   </el-table>
   <p style="margin: 10px"/>
   <el-table :data="guess" style="width: 100%">
-      <el-table-column prop="name" label="猜你喜欢" />
+      <el-table-column prop="title" label="猜你喜欢" />
   </el-table>
 </div>
 </template>
 
 <script>
+import axios from "axios";
+import {ElMessage} from "element-plus";
+
 export default {
   name: "NewsPopularComponents",
   data() {
     return {
-      popular: [
-        {
-          no: 1,
-          name: '停课不停学，梦想不延期 ——数学与计算机学院线上教学工作稳步推进',
-        },
-        {
-          no: 1,
-          name: '停课不停学，梦想不延期 ——数学与计算机学院线上教学工作稳步推进',
-        },
-        {
-          no: 1,
-          name: '停课不停学，梦想不延期 ——数学与计算机学院线上教学工作稳步推进',
-        },
-        {
-          no: 1,
-          name: '停课不停学，梦想不延期 ——数学与计算机学院线上教学工作稳步推进',
-        },
-        {
-          no: 1,
-          name: '停课不停学，梦想不延期 ——数学与计算机学院线上教学工作稳步推进',
-        },
-        {
-          no: 1,
-          name: '停课不停学，梦想不延期 ——数学与计算机学院线上教学工作稳步推进',
-        },
-        {
-          no: 1,
-          name: '停课不停学，梦想不延期 ——数学与计算机学院线上教学工作稳步推进',
-        },
-        {
-          no: 1,
-          name: '停课不停学，梦想不延期 ——数学与计算机学院线上教学工作稳步推进',
-        },
-        {
-          no: 1,
-          name: '停课不停学，梦想不延期 ——数学与计算机学院线上教学工作稳步推进',
-        },
-        {
-          no: 1,
-          name: '停课不停学，梦想不延期 ——数学与计算机学院线上教学工作稳步推进',
-        },
-      ],
-      guess: [
-        {
-          no: 1,
-          name: '停课不停学，梦想不延期 ——数学与计算机学院线上教学工作稳步推进',
-        },
-        {
-          no: 1,
-          name: '停课不停学，梦想不延期 ——数学与计算机学院线上教学工作稳步推进',
-        },
-        {
-          no: 1,
-          name: '停课不停学，梦想不延期 ——数学与计算机学院线上教学工作稳步推进',
-        },
-        {
-          no: 1,
-          name: '停课不停学，梦想不延期 ——数学与计算机学院线上教学工作稳步推进',
-        },
-      ],
+      popular: [],
+      guess: [],
+    }
+  },
+  created() {
+    this.initData()
+  },
+  methods: {
+    initData() {
+      let that = this
+      axios({
+        method: 'get',
+        url: 'http://localhost:8081/news/popular/10',
+      }).then(function (response) {
+        var respData = response['data']
+        if (Boolean(respData['status']) === true) {
+          that.popular = respData['data']
+        } else {
+          ElMessage({
+            message: '获取新闻失败',
+            type: 'error',
+          })
+        }
+
+      })
     }
   }
 }

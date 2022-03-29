@@ -3,7 +3,7 @@
     <HeaderComponent/>
     <el-container >
       <el-main class="center">
-        <NewsComponent class="left"/>
+        <NewsPreviewComponents class="left"/>
         <NewsPopularComponent class="right"/>
       </el-main>
     </el-container>
@@ -14,12 +14,12 @@
 
 <script>
 import HeaderComponent from "@/components/Header";
-import NewsComponent from '@/components/News'
+import NewsPreviewComponents from '@/components/NewsPreview'
 import NewsPopularComponent from '@/components/NewsPopular'
 
 export default {
   name: "IndexView",
-  components: {HeaderComponent, NewsComponent, NewsPopularComponent},
+  components: {HeaderComponent, NewsPreviewComponents, NewsPopularComponent},
 
   data() {
     return {

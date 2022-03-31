@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <router-view></router-view>
-    <el-backtop :right="100" :bottom="100" />
+    <el-backtop :right="100" :bottom="100"/>
   </div>
 </template>
 
@@ -9,17 +9,19 @@
 
 export default {
   name: 'App',
-  components: {
-  }
+  components: {}
 }
 </script>
 
 <style>
-body{
-  margin:0;
-  padding:0;
+body {
+  margin: 0;
+  padding: 0;
   background-color: #F6F6F6;
+  min-height: 100vh;
+  /*display:flex*/
 }
+
 /*#app {*/
 /*  font-family: Avenir, Helvetica, Arial, sans-serif;*/
 /*  -webkit-font-smoothing: antialiased;*/

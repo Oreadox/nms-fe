@@ -12,10 +12,12 @@
     "axios": "^0.26.1",
     "core-js": "^3.8.3",
     "element-plus": "^2.1.4",
+    "mavon-editor": "^3.0.0-beta",
     "vue": "^3.2.13",
     "vue-router": "^4.0.14",
     "vuex": "^4.0.2",
-    "vuex-persistedstate": "^4.1.0"
+    "vuex-persistedstate": "^4.1.0",
+    "wangeditor": "^4.7.12"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

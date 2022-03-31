@@ -1,0 +1,105 @@
+<template>
+  <div>
+    <HeaderComponent/>
+    <el-container>
+      <el-main>
+        <div class="center">
+          <el-input size="large" v-model="title" class="input left" placeholder="请输入标题"/>
+          <el-button type="primary" class="right button">发布</el-button>
+        </div>
+        <p></p>
+        <mavon-editor class="center height font" v-model="markdownData" :toolbars="toolbars" fontSize="17px"/>
+      </el-main>
+    </el-container>
+  </div>
+</template>
+
+<script>
+import HeaderComponent from "@/components/Header";
+import '@/css/input.css'
+
+export default {
+  name: "CreateNewsView",
+  components: {HeaderComponent},
+  data() {
+    return {
+      markdownData: "",
+      title: "",
+      toolbars: {
+        bold: true, // 粗体
+        italic: true, // 斜体
+        header: true, // 标题
+        underline: true, // 下划线
+        strikethrough: true, // 中划线
+        mark: true, // 标记
+        superscript: true, // 上角标
+        subscript: true, // 下角标
+        quote: true, // 引用
+        ol: true, // 有序列表
+        ul: true, // 无序列表
+        link: true, // 链接
+        imagelink: true, // 图片链接
+        code: true, // code
+        table: true, // 表格
+        readmodel: true, // 沉浸式阅读
+        help: true, // 帮助
+        undo: true, // 上一步
+        redo: true, // 下一步
+        trash: true, // 清空
+        navigation: true, // 导航目录
+        alignleft: true, // 左对齐
+        aligncenter: true, // 居中
+        alignright: true, // 右对齐
+        subfield: true, // 单双栏模式
+        preview: true, // 预览
+      }
+    }
+
+  }
+}
+</script>
+
+<style scoped>
+
+.center {
+  position: relative;
+  width: min(1210px, 100%);
+  margin: 0 auto;
+}
+
+.input >>> .el-input__inner {
+  font-size: 20px;
+  font-weight: bolder;
+  height: 45px;
+}
+
+.left {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  width: min(1089px, 90%);
+  /*float: left;*/
+}
+
+.right {
+  position: relative;
+  display: inline-block;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+.button {
+  height: 40px;
+  width: min(97px, 8%);
+  font: 16px bold;
+}
+
+.height {
+  min-height: 80vh;
+}
+
+.font >>> .auto-textarea-input, .markdown-body {
+  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
+  'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+}
+</style>

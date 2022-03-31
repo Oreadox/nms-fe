@@ -6,6 +6,8 @@ import * as icon from '@element-plus/icons-vue'
 import router from "@/router/router";
 import store from '@/store/index'
 import axios from 'axios'
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
 
 axios.defaults.withCredentials=true
 
@@ -18,5 +20,5 @@ for (const iconName in icon) {
         app.component(iconName, item)
     }
 }
-app.use(router).use(ElementPlus).use(store).mount('#app')
+app.use(router).use(ElementPlus).use(store).use(mavonEditor).mount('#app')
 

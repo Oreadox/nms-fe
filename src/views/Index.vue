@@ -7,9 +7,7 @@
         <NewsPopularComponent class="right"/>
       </el-main>
     </el-container>
-
   </div>
-
 </template>
 
 <script>

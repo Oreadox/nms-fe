@@ -1,6 +1,5 @@
 <template>
   <div>
-    <HeaderComponent/>
     <el-container >
       <el-main class="center">
         <NewsPreviewComponents class="left"/>
@@ -11,13 +10,12 @@
 </template>
 
 <script>
-import HeaderComponent from "@/components/Header";
 import NewsPreviewComponents from '@/components/NewsPreview'
 import NewsPopularComponent from '@/components/NewsPopular'
 
 export default {
   name: "IndexView",
-  components: {HeaderComponent, NewsPreviewComponents, NewsPopularComponent},
+  components: { NewsPreviewComponents, NewsPopularComponent},
 
   data() {
     return {

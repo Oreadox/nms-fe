@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <HeaderComponent/>
     <router-view></router-view>
     <el-backtop :right="100" :bottom="100"/>
   </div>
@@ -7,9 +8,11 @@
 
 <script>
 
+import HeaderComponent from "@/components/Header";
+
 export default {
   name: 'App',
-  components: {}
+  components: {HeaderComponent},
 }
 </script>
 

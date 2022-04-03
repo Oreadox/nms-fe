@@ -1,25 +1,23 @@
 <template>
-  <div>
-    <HeaderComponent/>
-    <div class="center">
+  <div class="center">
+    <el-container>
+      <SidebarComponent/>
+      <el-main class="main">
+        <div class="div">
 
-      <el-container>
-        <SidebarComponent/>
-        <el-main class="main">
-
-        </el-main>
-      </el-container>
-    </div>
-
+          <router-view></router-view>
+        </div>
+      </el-main>
+    </el-container>
   </div>
 </template>
 
 <script>
-import HeaderComponent from "@/components/Header";
 import SidebarComponent from "@/components/Sidebar";
+
 export default {
-  name: "AdminIndexView",
-  components: {HeaderComponent, SidebarComponent}
+  name: "AdminView",
+  components: {SidebarComponent},
 }
 </script>
 
@@ -31,6 +29,7 @@ export default {
   margin: 0 auto;
   /*text-align: center;*/
 }
+
 .main {
   margin: 10px 0 0 10px;
   height: calc(100vh - 70px);

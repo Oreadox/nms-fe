@@ -1,6 +1,5 @@
 <template>
   <div>
-    <HeaderComponent/>
     <el-container>
       <el-main class="center">
         <div class="center">
@@ -46,13 +45,11 @@
 </template>
 
 <script>
-import HeaderComponent from "@/components/Header";
 import axios from "axios";
 import {ElMessage} from "element-plus";
 
 export default {
   name: "NewsView",
-  components: {HeaderComponent},
   data() {
     return {
       id: this.$route.params.id,

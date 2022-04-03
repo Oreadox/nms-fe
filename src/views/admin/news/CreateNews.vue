@@ -1,6 +1,5 @@
 <template>
   <div>
-    <HeaderComponent/>
     <el-container>
       <el-main>
         <div class="center">
@@ -15,12 +14,10 @@
 </template>
 
 <script>
-import HeaderComponent from "@/components/Header";
 import '@/css/input.css'
 
 export default {
   name: "CreateNewsView",
-  components: {HeaderComponent},
   data() {
     return {
       markdownData: "",

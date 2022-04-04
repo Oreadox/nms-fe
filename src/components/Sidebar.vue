@@ -11,8 +11,9 @@
                 </el-icon>
                 我的信息
               </template>
-              <el-menu-item index="/admin/info">基本信息</el-menu-item>
-              <el-menu-item index="/admin/security">账号安全</el-menu-item>
+              <el-menu-item index="/admin/info">用户信息</el-menu-item>
+              <el-menu-item index="/admin/modify/info">基础信息修改</el-menu-item>
+              <el-menu-item index="/admin/modify/security">安全信息修改</el-menu-item>
             </el-sub-menu>
             <el-sub-menu index="news">
               <template #title>

@@ -1,12 +1,12 @@
 <template>
   <div>
     <el-container>
-      <el-main>
+      <el-main style="padding: 10px">
         <div class="center">
           <el-input size="large" v-model="title" class="input left" placeholder="请输入标题"/>
           <el-button type="primary" class="right button">发布</el-button>
         </div>
-        <p></p>
+        <div style="height: 10px"></div>
         <mavon-editor class="center height font" v-model="markdownData" :toolbars="toolbars" fontSize="17px"/>
       </el-main>
     </el-container>
@@ -14,10 +14,9 @@
 </template>
 
 <script>
-import '@/css/input.css'
 
 export default {
-  name: "CreateNewsView",
+  name: "CreateNewsMarkDownView",
   data() {
     return {
       markdownData: "",

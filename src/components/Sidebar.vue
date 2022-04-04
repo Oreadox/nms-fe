@@ -22,9 +22,9 @@
                 </el-icon>
                 新闻管理
               </template>
-              <el-menu-item index="/admin/news/me">管理我的新闻</el-menu-item>
-              <el-menu-item index="/admin/news/all">管理所有新闻</el-menu-item>
+              <el-menu-item index="/admin/news/list">管理新闻</el-menu-item>
               <el-menu-item index="/admin/news/create">发布新闻</el-menu-item>
+              <el-menu-item index="/admin/news/create_md">发布新闻-高级版</el-menu-item>
               <el-menu-item index="/admin/news/check">审核新闻</el-menu-item>
             </el-sub-menu>
             <el-sub-menu index="user">

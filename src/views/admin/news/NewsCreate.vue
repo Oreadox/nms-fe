@@ -55,6 +55,7 @@ export default {
             message: '提交成功，待审核',
             type: 'success',
           })
+          that.$router.push('/admin/news/list')
         } else {
           ElMessage({
             message: respData['message'],

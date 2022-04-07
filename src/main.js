@@ -27,7 +27,7 @@ router.beforeEach((to, from, next) => {
         next('/index')
         return
     }
-    if (to.meta.title) {
+    if (to.name) {
         document.title = to.name
     }
     if (to.matched[0].meta.login) {
@@ -36,7 +36,7 @@ router.beforeEach((to, from, next) => {
                 method: 'get',
                 url: '/admin',
             }).catch(function (error) {
-                if (error.response.status===401) {
+                if (error.response.status === 401) {
                     store.commit("setLogin", false)
                     next('/index')
                     location.reload()

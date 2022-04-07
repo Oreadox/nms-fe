@@ -1,27 +1,29 @@
 <template>
   <div>
-    <el-container>
-      <el-main style="padding: 10px">
-        <div class="center">
-          <el-input size="large" v-model="title" class="input left" placeholder="请输入标题"/>
-          <el-button type="primary" class="right button" @click="submit">发布</el-button>
-        </div>
-        <div style="height: 10px"></div>
-        <mavon-editor class="center height font" v-model="markdownData" :toolbars="toolbars" fontSize="17px"/>
-      </el-main>
-    </el-container>
+    <div>
+      <el-container>
+        <el-main style="padding: 10px">
+          <div class="center">
+            <el-input size="large" v-model="title" class="input left" placeholder="请输入标题"/>
+            <el-button type="primary" class="right button" @click="submit">发布</el-button>
+          </div>
+          <div style="height: 10px"></div>
+          <mavon-editor class="center height font" v-model="markdownData" :toolbars="toolbars" fontSize="17px"/>
+        </el-main>
+      </el-container>
+    </div>
   </div>
 </template>
 
 <script>
-
-import axios from "axios";
 import {ElMessage} from "element-plus";
+import axios from "axios";
 
 export default {
-  name: "CreateNewsMarkDownView",
+  name: "NewsModifyView",
   data() {
     return {
+      id: '',
       markdownData: "",
       title: "",
       toolbars: {
@@ -53,17 +55,40 @@ export default {
         preview: true, // 预览
       }
     }
-
+  },
+  created() {
+    this.initData()
   },
   methods: {
-    submit(){
-      if(this.title.trim()===''){
+    initData() {
+      this.id = this.$route.params.id
+      let that = this
+      axios({
+        method: 'get',
+        url: `/news/${that.id}`,
+      }).then(function (response) {
+        var respData = response['data']
+        if (Boolean(respData['status']) === true) {
+          document.title = `编辑-${respData['data']['title']}`
+          that.title = respData['data']['title']
+          that.markdownData = respData['data']['content']
+        } else {
+          ElMessage({
+            message: respData['message'],
+            type: 'error',
+          })
+          that.$router.push('/index')
+        }
+      })
+    },
+    submit() {
+      if (this.title.trim() === '') {
         ElMessage({
           message: '标题不能为空',
           type: 'error',
         })
         return
-      } else if(this.markdownData.trim()==='') {
+      } else if (this.markdownData.trim() === '') {
         ElMessage({
           message: '内容不能为空',
           type: 'error',
@@ -72,9 +97,10 @@ export default {
       }
       let that = this
       axios({
-        method: 'post',
+        method: 'put',
         url: '/news',
         data: {
+          id: that.id,
           title: that.title,
           content: that.markdownData,
           use_markdown: true
@@ -83,10 +109,9 @@ export default {
         var respData = response['data']
         if (Boolean(respData['status']) === true) {
           ElMessage({
-            message: '提交成功，待审核',
+            message: '提交成功',
             type: 'success',
           })
-          that.$router.push('/admin/news/list')
         } else {
           ElMessage({
             message: respData['message'],
@@ -100,7 +125,6 @@ export default {
 </script>
 
 <style scoped>
-
 .center {
   position: relative;
   width: min(1210px, 100%);

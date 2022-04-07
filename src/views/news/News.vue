@@ -8,7 +8,7 @@
               <div class="card-header" @click="$router.push(`/news/${news.id}`)">
                 <span><b>{{ newsData.title }}</b></span>
                 <div>
-                  <el-descriptions :column="2" :size="small" border class="align" style="margin-right: 10px">
+                  <el-descriptions :column="3" border class="align" style="margin-right: 10px">
                     <el-descriptions-item>
                       <template #label>
                         <div>
@@ -20,23 +20,36 @@
                       </template>
                       {{ newsData.authorUsername }}
                     </el-descriptions-item>
+<!--                    <el-descriptions-item>-->
+<!--                      <template #label>-->
+<!--                        <div>-->
+<!--                          <el-icon style="vertical-align: middle">-->
+<!--                            <iphone/>-->
+<!--                          </el-icon>-->
+<!--                          阅读量-->
+<!--                        </div>-->
+<!--                      </template>-->
+<!--                      {{ newsData.count }}-->
+<!--                    </el-descriptions-item>-->
                     <el-descriptions-item>
                       <template #label>
                         <div>
                           <el-icon style="vertical-align: middle">
-                            <iphone/>
+                            <clock/>
                           </el-icon>
-                          阅读量
+                          发布时间
                         </div>
                       </template>
-                      {{ newsData.count }}
+                      {{ newsData.releaseTime }}
                     </el-descriptions-item>
                   </el-descriptions>
                   <el-button class="button" type="text" style="">编辑</el-button>
                 </div>
               </div>
             </template>
-            <div style="text-align: left">{{ newsData.content }}</div>
+            <mavon-editor v-model="newsData.content" :subfield="false" :boxShadow="false"
+                defaultOpen="preview" :toolbarsFlag="false" class="md"/>
+<!--            <div style="text-align: left">{{ newsData.content }}</div>-->
           </el-card>
         </div>
       </el-main>
@@ -47,6 +60,7 @@
 <script>
 import axios from "axios";
 import {ElMessage} from "element-plus";
+import moment from "moment";
 
 export default {
   name: "NewsView",
@@ -76,21 +90,21 @@ export default {
       }).then(function (response) {
         var respData = response['data']
         if (Boolean(respData['status']) === true) {
+          document.title = respData['data']['title']
           that.newsData = {
             id: respData['data']['id'],
             title: respData['data']['title'],
             content: respData['data']['content'],
             count: respData['data']['count'],
             authorUsername: respData['data']['author_username'],
-            releaseTime: respData['data']['release_time']
+            releaseTime: moment(respData['data']['release_time']).format("YYYY/MM/DD HH:mm")
           }
-
-          respData['data']
         } else {
           ElMessage({
             message: respData['message'],
             type: 'error',
           })
+          that.$router.push('/index')
         }
       })
     }
@@ -120,5 +134,11 @@ export default {
 .align {
   display: inline-block;
   vertical-align: middle;
+}
+
+.md >>> .v-show-content, .v-note-wrapper {
+  background-color: white !important;
+  border: none;
+  padding: 0 !important;
 }
 </style>

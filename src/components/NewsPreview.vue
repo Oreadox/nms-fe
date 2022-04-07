@@ -7,7 +7,9 @@
             <span><b>{{ news.title }}</b></span>
           </div>
         </template>
-        <div style="text-align: left">{{ news.content.substring(0,100) }}......</div>
+        <div style="text-align: left">
+          {{ news.content.substring(0,100).replaceAll(/[:&\|\\\*^%$` #@\+-~]/g, "") }}......
+        </div>
       </el-card>
     </div>
   </div>
@@ -44,7 +46,6 @@ export default {
             type: 'error',
           })
         }
-
       })
     }
   }

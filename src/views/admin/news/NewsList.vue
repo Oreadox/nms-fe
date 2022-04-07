@@ -3,12 +3,18 @@
     <el-tabs type="card" v-model="tab" @tab-click="switchTabMethod">
       <el-tab-pane label="我发布的新闻" name="my">
         <div>
-          <el-table :data="newsData" stripe style="width: 100%"
+          <el-table :data="newsDataFilter" stripe style="width: 100%"
                     :default-sort="{ prop: 'date', order: 'descending' }">
             <el-table-column prop="date" label="发布时间" width="180" sortable/>
-            <el-table-column prop="title" label="标题"/>
+            <el-table-column prop="title" label="标题" sortable>
+              <template #default="scope">
+                <div @click="$router.push(`/news/${scope.row.id}`)" style="cursor: pointer">
+                  {{scope.row.title}}
+                </div>
+              </template>
+            </el-table-column>
             <el-table-column prop="author" label="作者" width="150" sortable/>
-            <el-table-column prop="" label="状态" width="100">
+            <el-table-column prop="" label="状态" width="95">
               <template #default="scope">
                 <el-tag v-if="scope.row['checked']>0" @click="log(newsData[scope.$index])">审核通过</el-tag>
                 <el-tag v-else-if="scope.row['checked']<0" type="danger">审核未过</el-tag>
@@ -16,9 +22,17 @@
               </template>
             </el-table-column>
             <el-table-column prop="" label="操作" width="140">
+              <template #header>
+                <el-input v-model="search" placeholder="搜索"/>
+              </template>
               <template #default="scope">
-                <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                <el-button size="small" type="danger" @click="deleteNews(scope.row['id'])">删除</el-button>
+                <el-button size="small" @click="$router.push(`/admin/news/modify/${scope.row.id}`)">编辑</el-button>
+                <el-popconfirm title="确定要删除吗？" icon-color="red" @confirm="deleteNews(scope.row['id'])">
+                  <template #reference>
+<!--                    <el-button size="small" type="danger" @click="deleteNews(scope.row['id'])">删除</el-button>-->
+                    <el-button size="small" type="danger">删除</el-button>
+                  </template>
+                </el-popconfirm>
               </template>
             </el-table-column>
           </el-table>
@@ -26,12 +40,18 @@
       </el-tab-pane>
       <el-tab-pane label="所有新闻" name="all">
         <div>
-          <el-table :data="allNewsData" stripe style="width: 100%"
+          <el-table :data="allNewsDataFilter" stripe style="width: 100%"
                     :default-sort="{ prop: 'date', order: 'descending' }">
             <el-table-column prop="date" label="发布时间" width="180" sortable/>
-            <el-table-column prop="title" label="标题"/>
+            <el-table-column prop="title" label="标题" sortable>
+              <template #default="scope">
+                <div @click="$router.push(`/news/${scope.row.id}`)" style="cursor: pointer">
+                  {{scope.row.title}}
+                </div>
+              </template>
+            </el-table-column>
             <el-table-column prop="author" label="作者" width="150" sortable/>
-            <el-table-column prop="" label="状态" width="100">
+            <el-table-column prop="" label="状态" width="95">
               <template #default="scope">
                 <el-tag v-if="scope.row['checked']>0">审核通过</el-tag>
                 <el-tag v-else-if="scope.row['checked']<0" type="danger">审核未过</el-tag>
@@ -39,9 +59,17 @@
               </template>
             </el-table-column>
             <el-table-column prop="" label="操作" width="140">
+              <template #header>
+                <el-input v-model="allSearch" placeholder="搜索"/>
+              </template>
               <template #default="scope">
-                <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                <el-button size="small" type="danger" @click="deleteNews(scope.row['id'])">删除</el-button>
+                <el-button size="small" @click="$router.push(`/admin/news/modify/${scope.row.id}`)">编辑</el-button>
+                <el-popconfirm title="确定要删除吗？" icon-color="red" @confirm="deleteNews(scope.row['id'])">
+                  <template #reference>
+                    <!--                    <el-button size="small" type="danger" @click="deleteNews(scope.row['id'])">删除</el-button>-->
+                    <el-button size="small" type="danger">删除</el-button>
+                  </template>
+                </el-popconfirm>
               </template>
             </el-table-column>
           </el-table>
@@ -61,12 +89,35 @@ export default {
   data() {
     return {
       tab: "my",
+      search: '',
       newsData: [],
-      allNewsData: []
+      allSearch: '',
+      allNewsData: [],
+
     }
   },
   created() {
     this.initData()
+  },
+  computed: {
+    newsDataFilter: function () {
+      if (this.search.length === 0) {
+        return this.newsData
+      } else {
+        return this.newsData.filter((data) => {
+          return data.title.includes(this.search) || data.author.includes(this.search)
+        })
+      }
+    },
+    allNewsDataFilter: function () {
+      if (this.allSearch.length === 0) {
+        return this.allNewsData
+      } else {
+        return this.allNewsData.filter((data) => {
+          return data.title.includes(this.allSearch) || data.author.includes(this.allSearch)
+        })
+      }
+    }
   },
   methods: {
     initData() {

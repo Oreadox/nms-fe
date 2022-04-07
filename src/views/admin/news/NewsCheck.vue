@@ -1,9 +1,15 @@
 <template>
   <div>
-    <el-table :data="newsData" stripe style="width: 100%"
+    <el-table :data="newsDataFilter" stripe style="width: 100%"
               :default-sort="{ prop: 'date', order: 'descending' }">
       <el-table-column prop="date" label="发布时间" width="180" sortable/>
-      <el-table-column prop="title" label="标题"/>
+      <el-table-column prop="title" label="标题" sortable>
+        <template #default="scope">
+          <div @click="$router.push(`/news/${scope.row.id}`)" style="cursor: pointer">
+            {{scope.row.title}}
+          </div>
+        </template>
+      </el-table-column>
       <el-table-column prop="author" label="作者" width="150" sortable/>
       <el-table-column prop="" label="状态" width="100">
         <template #default>
@@ -11,6 +17,9 @@
         </template>
       </el-table-column>
       <el-table-column prop="" label="操作" width="140">
+        <template #header>
+          <el-input v-model="search" placeholder="搜索"/>
+        </template>
         <template #default="scope">
           <el-button size="small" type="primary" @click="checkNews(scope.row['id'], 1)">通过</el-button>
           <el-button size="small" type="danger" @click="checkNews(scope.row['id'], 0)">拒绝</el-button>
@@ -29,7 +38,19 @@ export default {
   name: "NewsCheck",
   data() {
     return {
+      search: '',
       newsData: []
+    }
+  },
+  computed: {
+    newsDataFilter: function () {
+      if (this.search.length === 0) {
+        return this.newsData
+      } else {
+        return this.newsData.filter((data) => {
+          return data.title.includes(this.search) || data.author.includes(this.search)
+        })
+      }
     }
   },
   created() {

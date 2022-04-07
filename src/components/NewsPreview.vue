@@ -33,7 +33,7 @@ export default {
       let that = this
       axios({
         method: 'get',
-        url: 'http://localhost:8081/news/page/1',
+        url: '/news/page/1',
       }).then(function (response) {
         var respData = response['data']
         if (Boolean(respData['status']) === true) {

@@ -72,7 +72,7 @@ export default {
       let that = this
       axios({
         method: 'get',
-        url: `http://localhost:8081/news/${that.id}`,
+        url: `/news/${that.id}`,
       }).then(function (response) {
         var respData = response['data']
         if (Boolean(respData['status']) === true) {

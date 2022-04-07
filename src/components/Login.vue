@@ -55,7 +55,7 @@ export default {
 
           axios({
             method: 'get',
-            url: 'http://localhost:8081/token',
+            url: '/token',
           }).then(function (response) {
             var respData = response['data']
             if (Boolean(respData['status']) === true) {

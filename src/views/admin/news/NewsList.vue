@@ -27,7 +27,8 @@
               </template>
               <template #default="scope">
                 <el-button size="small" @click="$router.push(`/admin/news/modify/${scope.row.id}`)">编辑</el-button>
-                <el-popconfirm title="确定要删除吗？" icon-color="red" @confirm="deleteNews(scope.row['id'])">
+                <el-popconfirm title="确定要删除吗？" icon-color="red" @confirm="deleteNews(scope.row['id'])"
+                               confirmButtonText="确定" cancelButtonText="取消">
                   <template #reference>
 <!--                    <el-button size="small" type="danger" @click="deleteNews(scope.row['id'])">删除</el-button>-->
                     <el-button size="small" type="danger">删除</el-button>
@@ -64,7 +65,8 @@
               </template>
               <template #default="scope">
                 <el-button size="small" @click="$router.push(`/admin/news/modify/${scope.row.id}`)">编辑</el-button>
-                <el-popconfirm title="确定要删除吗？" icon-color="red" @confirm="deleteNews(scope.row['id'])">
+                <el-popconfirm title="确定要删除吗？" icon-color="red" @confirm="deleteNews(scope.row['id'])"
+                               confirmButtonText="确定" cancelButtonText="取消">
                   <template #reference>
                     <!--                    <el-button size="small" type="danger" @click="deleteNews(scope.row['id'])">删除</el-button>-->
                     <el-button size="small" type="danger">删除</el-button>

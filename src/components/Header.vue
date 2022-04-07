@@ -9,14 +9,16 @@
             </el-col>
             <el-col :span="4"/>
             <el-col :span="4">
-              <el-button v-if="$store.state.isLogin" class="button">{{ $store.state.username }}</el-button>
+              <el-button class="button" @click="$router.push('/admin/info')" v-if="$store.state.isLogin">
+                {{ $store.state.username }}
+              </el-button>
               <el-button type="primary" @click="openLoginComponent=true" v-else class="button">管理员登录</el-button>
             </el-col>
           </el-row>
         </div>
         <el-menu mode="horizontal" router>
           <el-tooltip placement="bottom" effect="light" content="回到首页">
-            <el-menu-item index="/" >首页</el-menu-item>
+            <el-menu-item index="/index">首页</el-menu-item>
           </el-tooltip>
           <el-tooltip placement="bottom" effect="light" content="test">
             <el-menu-item index="/recent">最新消息</el-menu-item>
@@ -27,24 +29,25 @@
           <el-tooltip placement="bottom" effect="light" content="test">
             <el-menu-item index="/academic">学术动态</el-menu-item>
           </el-tooltip>
-<!--          <el-tooltip placement="bottom" effect="light" content="后台" v-if="$store.state.isLogin">-->
-<!--            <el-menu-item index="/admin/news/list">发布审核新闻</el-menu-item>-->
-<!--          </el-tooltip>-->
+          <!--          <el-tooltip placement="bottom" effect="light" content="后台" v-if="$store.state.isLogin">-->
+          <!--            <el-menu-item index="/admin/news/list">发布审核新闻</el-menu-item>-->
+          <!--          </el-tooltip>-->
           <el-tooltip placement="bottom" effect="light" content="后台" v-if="$store.state.isLogin">
             <el-menu-item index="/admin">管理员后台</el-menu-item>
           </el-tooltip>
         </el-menu>
       </el-header>
       <el-divider style="margin: -2px"/>
-        <el-dialog v-model="openLoginComponent">
-          <LoginComponent @setOpenLoginComponent="setOpenLoginComponent"></LoginComponent>
-        </el-dialog>
+      <el-dialog v-model="openLoginComponent">
+        <LoginComponent @setOpenLoginComponent="setOpenLoginComponent"></LoginComponent>
+      </el-dialog>
     </el-container>
   </div>
 </template>
 
 <script>
 import LoginComponent from "@/components/Login";
+
 export default {
   name: "HeaderComponent",
   components: {LoginComponent},
@@ -60,7 +63,7 @@ export default {
     }
   },
   methods: {
-    setOpenLoginComponent(openLoginComponent){
+    setOpenLoginComponent(openLoginComponent) {
       this.openLoginComponent = openLoginComponent
     }
   }
@@ -78,15 +81,21 @@ export default {
   /*align-content: center;*/
   /*margin: 5px 20px 5px 15px;*/
 }
-.center{
+
+.center {
   position: relative;
   width: min(1210px, 100%);
   /*width: max(720px, min(80%, 80%));*/
   margin: 0 auto;
   /*text-align: center;*/
 }
-.button{
+
+.button {
   height: 35px;
   width: 100px;
+}
+
+.popover >>> .el-popover, .el-popper {
+  padding: 0 !important;
 }
 </style>

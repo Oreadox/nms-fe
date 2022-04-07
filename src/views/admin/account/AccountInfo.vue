@@ -105,6 +105,9 @@
 
   <div style="margin-top: 25px">
     <el-descriptions title="用户权限信息" :column="1" size="large" border>
+      <template #extra>
+        <el-button type="danger" @click="logout">退出登录状态</el-button>
+      </template>
       <el-descriptions-item label-class-name="label_25percent">
         <template #label>
           <div class="cell-item">
@@ -143,8 +146,22 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "AccountInfoView",
+  methods: {
+    logout(){
+      let that = this
+      that.$store.commit("setLogin", false)
+      axios({
+        method: 'get',
+        url: 'http://localhost:8081/logout',
+      }).finally(function (){
+        that.$router.push("/index")
+      })
+    }
+  }
 }
 </script>
 

@@ -1,28 +1,94 @@
 <template>
   <div>
-          <el-table :data="newsData" stripe style="width: 100%"
-                    :default-sort="{ prop: 'date', order: 'descending' }">
-            <el-table-column prop="date" label="发布时间" width="180" sortable />
-            <el-table-column prop="title" label="标题" />
-            <el-table-column prop="author" label="作者" width="150" sortable/>
-            <el-table-column prop="" label="状态" width="100">
-              <template #default="scope">
-                <el-tag @click="s(scope)">审核通过</el-tag>
-              </template>
-            </el-table-column>
-            <el-table-column prop="" label="操作" width="140">
-              <template #default="scope">
-                <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-              </template>
-            </el-table-column>
-          </el-table>
+    <el-table :data="newsData" stripe style="width: 100%"
+              :default-sort="{ prop: 'date', order: 'descending' }">
+      <el-table-column prop="date" label="发布时间" width="180" sortable/>
+      <el-table-column prop="title" label="标题"/>
+      <el-table-column prop="author" label="作者" width="150" sortable/>
+      <el-table-column prop="" label="状态" width="100">
+        <template #default>
+          <el-tag type="info">未审核</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column prop="" label="操作" width="140">
+        <template #default="scope">
+          <el-button size="small" type="primary" @click="checkNews(scope.row['id'], 1)">通过</el-button>
+          <el-button size="small" type="danger" @click="checkNews(scope.row['id'], 0)">拒绝</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+import moment from "moment";
+import {ElMessage} from "element-plus";
+
 export default {
-  name: "NewsCheck"
+  name: "NewsCheck",
+  data() {
+    return {
+      newsData: []
+    }
+  },
+  created() {
+    this.initData()
+  },
+  methods: {
+    initData() {
+      let that = this
+      axios({
+        method: 'get',
+        url: '/news/unchecked'
+      }).then(function (response) {
+        var respData = response['data']
+        if (Boolean(respData['status']) === true) {
+          let data = respData['data']
+          data.forEach(function (news) {
+            that.newsData.push({
+              id: news['id'],
+              date: moment(news['release_time']).format("YYYY-MM-DD HH:mm:ss"),
+              author: news['author_username'],
+              title: news['title'],
+              checked: news['checked']
+            })
+          })
+        } else {
+          ElMessage({
+            message: '获取失败',
+            type: 'error',
+          })
+        }
+      })
+    },
+    checkNews(id, status) {
+      let that = this
+      axios({
+        method: 'put',
+        url: '/news',
+        data: {
+          id: id,
+          checked: status
+        }
+      }).then(function (response) {
+        var respData = response['data']
+        if (Boolean(respData['status']) === true) {
+          ElMessage({
+            message: '提交成功',
+            type: 'success',
+          })
+          that.newsData = []
+          that.initData()
+        } else {
+          ElMessage({
+            message: '提交失败',
+            type: 'error',
+          })
+        }
+      })
+    }
+  }
 }
 </script>
 

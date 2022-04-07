@@ -12,18 +12,17 @@ const NewsCheckView = () => import('@/views/admin/news/NewsCheck')
 
 
 const routes = [
-    {path: '/', name: '主页', component: IndexView},
+    {path: '/index', name: '主页', component: IndexView},
     {path: '/news/:id', name: '新闻-加载中', component: NewsView},
     {
-        path: '/admin', name: '管理员后台', component: AdminView, redirect: '/admin/info', children: [
+        path: '/admin', name: '管理员后台', component: AdminView, redirect: '/admin/info', meta: {login:true}, children: [
             {path: '/admin/info', name: '管理员用户信息', component: AdminInfoView},
             {path: '/admin/news/create', name: '创建新闻', component: NewsCreateView},
             {path: '/admin/news/list', name: '管理新闻', component: NewsListView},
             {path: '/admin/news/check', name: '审核新闻', component: NewsCheckView},
         ]
     },
-    {path: '/admin/news/create_md', name: '创建新闻-高级版', component: NewsCreateMarkdownView},
-
+    {path: '/admin/news/create_md', name: '创建新闻-高级版', meta: {login:true}, component: NewsCreateMarkdownView},
 ]
 
 export default VueRouter.createRouter({

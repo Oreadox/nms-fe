@@ -27,9 +27,9 @@
           <el-tooltip placement="bottom" effect="light" content="test">
             <el-menu-item index="/academic">学术动态</el-menu-item>
           </el-tooltip>
-          <el-tooltip placement="bottom" effect="light" content="后台" v-if="$store.state.isLogin">
-            <el-menu-item index="/news/background">发布审核新闻</el-menu-item>
-          </el-tooltip>
+<!--          <el-tooltip placement="bottom" effect="light" content="后台" v-if="$store.state.isLogin">-->
+<!--            <el-menu-item index="/admin/news/list">发布审核新闻</el-menu-item>-->
+<!--          </el-tooltip>-->
           <el-tooltip placement="bottom" effect="light" content="后台" v-if="$store.state.isLogin">
             <el-menu-item index="/admin">管理员后台</el-menu-item>
           </el-tooltip>

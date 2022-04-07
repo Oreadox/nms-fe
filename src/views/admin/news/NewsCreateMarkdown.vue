@@ -4,7 +4,7 @@
       <el-main style="padding: 10px">
         <div class="center">
           <el-input size="large" v-model="title" class="input left" placeholder="请输入标题"/>
-          <el-button type="primary" class="right button">发布</el-button>
+          <el-button type="primary" class="right button" @click="submit">发布</el-button>
         </div>
         <div style="height: 10px"></div>
         <mavon-editor class="center height font" v-model="markdownData" :toolbars="toolbars" fontSize="17px"/>
@@ -14,6 +14,9 @@
 </template>
 
 <script>
+
+import axios from "axios";
+import {ElMessage} from "element-plus";
 
 export default {
   name: "CreateNewsMarkDownView",
@@ -51,6 +54,46 @@ export default {
       }
     }
 
+  },
+  methods: {
+    submit(){
+      if(this.title.trim()===''){
+        ElMessage({
+          message: '标题不能为空',
+          type: 'error',
+        })
+        return
+      } else if(this.markdownData.trim()==='') {
+        ElMessage({
+          message: '内容不能为空',
+          type: 'error',
+        })
+        return
+      }
+      let that = this
+      axios({
+        method: 'post',
+        url: '/news',
+        data: {
+          title: that.title,
+          content: that.markdownData,
+          use_markdown: true
+        }
+      }).then(function (response) {
+        var respData = response['data']
+        if (Boolean(respData['status']) === true) {
+          ElMessage({
+            message: '提交成功，待审核',
+            type: 'success',
+          })
+        } else {
+          ElMessage({
+            message: respData['message'],
+            type: 'error',
+          })
+        }
+      })
+    }
   }
 }
 </script>

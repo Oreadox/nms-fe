@@ -11,6 +11,8 @@ const NewsCreateMarkdownView = () => import('@/views/admin/news/NewsCreateMarkdo
 const NewsListView = () => import('@/views/admin/news/NewsList')
 const NewsCheckView = () => import('@/views/admin/news/NewsCheck')
 const NewsModifyView = () => import('@/views/admin/news/NewsModify')
+const UserListView = () => import('@/views/admin/user/UserList')
+const UserAddView = () => import('@/views/admin/user/UserAdd')
 
 
 
@@ -25,6 +27,8 @@ const routes = [
             {path: '/admin/news/create', name: '创建新闻', component: NewsCreateView},
             {path: '/admin/news/list', name: '管理新闻', component: NewsListView},
             {path: '/admin/news/check', name: '审核新闻', component: NewsCheckView},
+            {path: '/admin/user', name: '管理用户', component: UserListView},
+            {path: '/admin/user/add', name: '新增用户', component: UserAddView},
         ]},
     {path: '/admin/news/create_md', name: '创建新闻-高级版', meta: {login:true}, component: NewsCreateMarkdownView},
     {path: '/admin/news/modify/:id', name: '编辑新闻', meta: {login:true}, component: NewsModifyView},

@@ -22,7 +22,7 @@
         </template>
         <template #default="scope">
           <el-button size="small" type="primary" @click="checkNews(scope.row['id'], 1)">通过</el-button>
-          <el-button size="small" type="danger" @click="checkNews(scope.row['id'], 0)">拒绝</el-button>
+          <el-button size="small" type="danger" @click="checkNews(scope.row['id'], -1)">拒绝</el-button>
         </template>
       </el-table-column>
     </el-table>

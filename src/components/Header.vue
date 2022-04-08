@@ -38,7 +38,7 @@
         </el-menu>
       </el-header>
       <el-divider style="margin: -2px"/>
-      <el-dialog v-model="openLoginComponent">
+      <el-dialog v-model="openLoginComponent" width="600px" class="login">
         <LoginComponent @setOpenLoginComponent="setOpenLoginComponent"></LoginComponent>
       </el-dialog>
     </el-container>
@@ -98,4 +98,8 @@ export default {
 .popover >>> .el-popover, .el-popper {
   padding: 0 !important;
 }
+
+/*.login >>> .el-dialog__body {*/
+/*  padding: 10px 25px 5px 10px !important;*/
+/*}*/
 </style>

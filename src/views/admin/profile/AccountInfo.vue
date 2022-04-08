@@ -8,12 +8,23 @@
         <template #label>
           <div class="cell-item">
             <el-icon>
+              <key/>
+            </el-icon>
+            用户id
+          </div>
+        </template>
+        {{ userData.id }}
+      </el-descriptions-item>
+      <el-descriptions-item label-class-name="label_25percent">
+        <template #label>
+          <div class="cell-item">
+            <el-icon>
               <user-filled/>
             </el-icon>
             用户名
           </div>
         </template>
-        test
+        {{ userData.username }}
       </el-descriptions-item>
       <el-descriptions-item label-class-name="label_25percent">
         <template #label>
@@ -24,7 +35,7 @@
             姓名
           </div>
         </template>
-        test
+        {{ userData.name }}
       </el-descriptions-item>
       <el-descriptions-item label-class-name="label_25percent">
         <template #label>
@@ -35,7 +46,7 @@
             电话
           </div>
         </template>
-        13000000000
+        {{ userData.phone }}
       </el-descriptions-item>
       <el-descriptions-item label-class-name="label_25percent">
         <template #label>
@@ -46,7 +57,7 @@
             电子邮箱
           </div>
         </template>
-        test@test.com
+        {{ userData.email }}
       </el-descriptions-item>
       <el-descriptions-item label-class-name="label_25percent">
         <template #label>
@@ -57,7 +68,7 @@
             院系
           </div>
         </template>
-        院系
+        {{ userData.department }}
       </el-descriptions-item>
     </el-descriptions>
   </div>
@@ -71,7 +82,7 @@
         <template #label>
           <div class="cell-item">
             <el-icon>
-              <key/>
+              <lock/>
             </el-icon>
             密码
           </div>
@@ -87,7 +98,8 @@
             两步验证
           </div>
         </template>
-        未设置
+        <div v-if="!userData.enableTotp">未设置</div>
+        <div v-else>已设置</div>
       </el-descriptions-item>
       <el-descriptions-item label-class-name="label_25percent">
         <template #label>
@@ -98,7 +110,7 @@
             注册时间
           </div>
         </template>
-        2022/01/01 12:00
+        {{ userData.createTime }}
       </el-descriptions-item>
     </el-descriptions>
   </div>
@@ -117,7 +129,21 @@
             新闻管理权限
           </div>
         </template>
-        <el-tag>发布/编辑新闻</el-tag>
+        <div v-if="userData['permission'].includes('news:newEdit') ||
+                   userData['permission'].includes('news:check') ||
+                   userData['permission'].includes('*:*')">
+          <el-tag class="tag" v-if="userData['permission'].includes('news:newEdit')||
+                                    userData['permission'].includes('*:*')">
+            发布/编辑新闻
+          </el-tag>
+          <el-tag class="tag" v-if="userData['permission'].includes('news:check')||
+                                    userData['permission'].includes('*:*')">
+            审核新闻
+          </el-tag>
+        </div>
+        <div v-else>
+          <el-tag type="info">无相关权限</el-tag>
+        </div>
       </el-descriptions-item>
       <el-descriptions-item label-class-name="label_25percent">
         <template #label>
@@ -128,7 +154,13 @@
             用户管理权限
           </div>
         </template>
-        <el-tag type="info">无相关权限</el-tag>
+        <div v-if="userData['permission'].includes('user:*') ||
+                   userData['permission'].includes('*:*')">
+          <el-tag>用户管理</el-tag>
+        </div>
+        <div v-else>
+          <el-tag type="info">无相关权限</el-tag>
+        </div>
       </el-descriptions-item>
       <el-descriptions-item label-class-name="label_25percent">
         <template #label>
@@ -139,7 +171,12 @@
             超级管理员权限
           </div>
         </template>
-        <el-tag type="info">无相关权限</el-tag>
+        <div v-if="userData['permission'].includes('*:*')">
+          <el-tag>超级管理员</el-tag>
+        </div>
+        <div v-else>
+          <el-tag type="info">无相关权限</el-tag>
+        </div>
       </el-descriptions-item>
     </el-descriptions>
   </div>
@@ -147,17 +184,57 @@
 
 <script>
 import axios from "axios";
+import moment from "moment";
+import {ElMessage} from "element-plus";
 
 export default {
   name: "AccountInfoView",
+  data() {
+    return {
+      userData: {
+        permission: []
+      }
+    }
+  },
+  created() {
+    this.initData()
+  },
   methods: {
-    logout(){
+    initData() {
+      let that = this
+      axios({
+        method: 'get',
+        url: '/admin'
+      }).then(function (response) {
+        var respData = response['data']
+        if (Boolean(respData['status']) === true) {
+          let data = respData['data']
+          that.userData = {
+            id: data['id'],
+            username: data['username'],
+            name: data['name'],
+            email: data['email'],
+            phone: data['phone'],
+            department: data['department'],
+            enableTotp: data['enable_totp'],
+            createTime: moment(data['create_time']).format("YYYY-MM-DD HH:mm:ss"),
+            permission: data['permission']
+          }
+        } else {
+          ElMessage({
+            message: '信息获取失败',
+            type: 'error',
+          })
+        }
+      })
+    },
+    logout() {
       let that = this
       that.$store.commit("setLogin", false)
       axios({
         method: 'get',
         url: 'http://localhost:8081/logout',
-      }).finally(function (){
+      }).finally(function () {
         that.$router.push("/index")
       })
     }
@@ -169,6 +246,9 @@ export default {
 .cell-item {
   display: flex;
   align-items: center;
+}
+.tag {
+  margin-right: 5px;
 }
 </style>
 

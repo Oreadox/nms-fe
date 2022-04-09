@@ -39,7 +39,7 @@ export default {
       var that = this
       axios({
         method: 'post',
-        url: 'http://localhost:8081/token',
+        url: '/token',
         data: {
           username: that.loginForm.username,
           password: that.loginForm.password,
@@ -63,9 +63,9 @@ export default {
               that.$store.commit("setId", respData['data']['id'])
               that.$store.commit("setPermission",respData['data']['permission'] )
               that.$emit("setOpenLoginComponent", false)
-              that.username = ''
-              that.password = ''
-              that.totp = ''
+              that.loginForm.username = ''
+              that.loginForm.password = ''
+              that.loginForm.totp = ''
             }
           })} else {
           ElMessage({

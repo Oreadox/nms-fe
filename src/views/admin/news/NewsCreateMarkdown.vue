@@ -7,7 +7,7 @@
           <el-button type="primary" class="right button" @click="submit">发布</el-button>
         </div>
         <div style="height: 10px"></div>
-        <mavon-editor class="center height font" v-model="markdownData" :toolbars="toolbars" fontSize="17px"/>
+        <mavon-editor class="center height editor" v-model="markdownData" :toolbars="toolbars" fontSize="17px"/>
       </el-main>
     </el-container>
   </div>
@@ -138,8 +138,9 @@ export default {
   min-height: 80vh;
 }
 
-.font >>> .auto-textarea-input, .markdown-body {
+.editor >>> .auto-textarea-input, .markdown-body, .v-note-wrapper {
   font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
   'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+  z-index: 15;
 }
 </style>

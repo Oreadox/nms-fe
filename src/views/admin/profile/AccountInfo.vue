@@ -233,7 +233,7 @@ export default {
       that.$store.commit("setLogin", false)
       axios({
         method: 'get',
-        url: 'http://localhost:8081/logout',
+        url: '/logout',
       }).finally(function () {
         that.$router.push("/index")
       })

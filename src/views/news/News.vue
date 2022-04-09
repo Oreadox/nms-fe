@@ -5,7 +5,7 @@
         <div class="center">
           <el-card class="box-card" shadow="hover">
             <template #header>
-              <div class="card-header" @click="$router.push(`/news/${news.id}`)">
+              <div class="card-header">
                 <span><b>{{ newsData.title }}</b></span>
                 <div>
                   <el-descriptions :column="3" border class="align" style="margin-right: 10px">
@@ -43,7 +43,12 @@
                       {{ newsData.releaseTime }}
                     </el-descriptions-item>
                   </el-descriptions>
-                  <el-button class="button" type="text" style="">编辑</el-button>
+                  <el-button class="button" type="text"
+                             v-if="$store.state.permission.includes('news:newEdit') ||
+                                   $store.state.permission.includes('*:*')"
+                             @click="$router.push(`/admin/news/modify/${id}`)">
+                    编辑
+                  </el-button>
                 </div>
               </div>
             </template>
@@ -140,5 +145,6 @@ export default {
   background-color: white !important;
   border: none;
   padding: 0 !important;
+  z-index: 15;
 }
 </style>

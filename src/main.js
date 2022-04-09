@@ -1,7 +1,9 @@
 import {createApp} from 'vue'
 import App from './App.vue'
-import ElementPlus, {ElMessage} from 'element-plus'
-import 'element-plus/dist/index.css'
+import {ElMessage} from 'element-plus'
+// import 'element-plus/dist/index.css'
+import 'element-plus/theme-chalk/el-message.css'
+import 'element-plus/theme-chalk/el-message-box.css'
 import * as icon from '@element-plus/icons-vue'
 import router from "@/router/router";
 import store from '@/store/index'
@@ -20,7 +22,6 @@ for (const iconName in icon) {
         app.component(iconName, item)
     }
 }
-
 
 router.beforeEach((to, from, next) => {
     if (to.matched.length === 0) {
@@ -70,6 +71,6 @@ router.beforeEach((to, from, next) => {
     }
 })
 
-
-app.use(router).use(ElementPlus).use(store).use(mavonEditor).use(moment).mount('#app')
+app.use(router).use(store).use(mavonEditor).use(moment).mount('#app')
+// app.use(router).use(ElementPlus).use(store).use(mavonEditor).use(moment).mount('#app')
 

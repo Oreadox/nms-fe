@@ -121,8 +121,6 @@ export default {
   },
   created() {
     this.initData()
-    // this.$refs.qrcode.innerHTML = ''
-
   },
   methods: {
     initData() {

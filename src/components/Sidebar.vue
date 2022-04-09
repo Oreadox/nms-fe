@@ -15,19 +15,28 @@
               <el-menu-item index="/admin/modify/info">基础信息修改</el-menu-item>
               <el-menu-item index="/admin/modify/security">安全信息修改</el-menu-item>
             </el-sub-menu>
-            <el-sub-menu index="news">
+            <el-sub-menu index="news" v-if="currentUserPermission.includes('news:newEdit') ||
+                                            currentUserPermission.includes('news:check') ||
+                                            currentUserPermission.includes('*:*')">
               <template #title>
                 <el-icon>
                   <document/>
                 </el-icon>
                 新闻管理
               </template>
-              <el-menu-item index="/admin/news/list">管理新闻</el-menu-item>
-              <el-menu-item index="/admin/news/create">发布新闻</el-menu-item>
-              <el-menu-item index="/admin/news/create_md">发布新闻-高级版</el-menu-item>
-              <el-menu-item index="/admin/news/check">审核新闻</el-menu-item>
+              <div v-if="currentUserPermission.includes('news:newEdit') ||
+                         currentUserPermission.includes('*:*')">
+                <el-menu-item index="/admin/news/list">管理新闻</el-menu-item>
+                <el-menu-item index="/admin/news/create">发布新闻</el-menu-item>
+                <el-menu-item index="/admin/news/create_md">发布新闻-高级版</el-menu-item>
+              </div>
+              <div v-if="currentUserPermission.includes('news:check') ||
+                         currentUserPermission.includes('*:*')">
+                <el-menu-item index="/admin/news/check">审核新闻</el-menu-item>
+              </div>
             </el-sub-menu>
-            <el-sub-menu index="user">
+            <el-sub-menu index="user" v-if="currentUserPermission.includes('user:*') ||
+                                            currentUserPermission.includes('*:*')">
               <template #title>
                 <el-icon>
                   <user/>
@@ -46,7 +55,15 @@
 
 <script>
 export default {
-  name: "SidebarComponent"
+  name: "SidebarComponent",
+  data() {
+    return {
+      currentUserPermission: []
+    }
+  },
+  created() {
+    this.currentUserPermission = this.$store.state.permission
+  }
 }
 </script>
 

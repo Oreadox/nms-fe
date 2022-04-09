@@ -76,7 +76,8 @@
           </el-checkbox-group>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitPermission(currentUserId, currentUserPermission)">
+          <el-button type="primary"
+                     @click="submitPermission(currentUserId, currentUsername, currentUserPermission)">
             提交
           </el-button>
           <el-button @click="openDialog=false">取消</el-button>
@@ -157,7 +158,7 @@ export default {
       this.currentUserPermission = permission != null ? permission.slice() : []
       this.openDialog = true
     },
-    submitPermission(id, permission){
+    submitPermission(id, username, permission){
       let that = this
       axios({
         method: 'put',
@@ -176,6 +177,9 @@ export default {
           that.openDialog = false
           that.userData = []
           that.initData()
+          ElMessageBox.alert(`用户${username}的权限设置成功，该用户可能需要重新登录才能获取权限，请及时通知`, '修改成功', {
+            confirmButtonText: '好的',
+          })
         } else {
           ElMessage({
             message: respData['message'],
@@ -191,12 +195,14 @@ export default {
         url: '/admin',
         data: {
           id: id,
-          password: password
+          password: password,
+          enable_totp: false
         }
       }).then(function (response) {
         var respData = response['data']
         if (Boolean(respData['status']) === true) {
-          ElMessageBox.alert(`用户${username}的密码已被重置为${password}，请及时通知该用户`, '修改成功', {
+          ElMessageBox.alert(
+              `用户${username}的密码已被重置为${password}，若启用了两步验证，其也被一并关闭，请及时通知该用户`, '修改成功', {
             confirmButtonText: '好的',
           })
         } else {

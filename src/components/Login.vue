@@ -52,7 +52,6 @@ export default {
             message: '登录成功',
             type: 'success',
           })
-
           axios({
             method: 'get',
             url: '/token',
@@ -62,7 +61,11 @@ export default {
               that.$store.commit("setUsername", respData['data']['username'])
               that.$store.commit("setLogin", true)
               that.$store.commit("setId", respData['data']['id'])
+              that.$store.commit("setPermission",respData['data']['permission'] )
               that.$emit("setOpenLoginComponent", false)
+              that.username = ''
+              that.password = ''
+              that.totp = ''
             }
           })} else {
           ElMessage({
@@ -73,8 +76,6 @@ export default {
       })
     },
   },
-
-
 }
 </script>
 

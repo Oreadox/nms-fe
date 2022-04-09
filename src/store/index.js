@@ -1,4 +1,4 @@
-import { createStore } from 'vuex'
+import {createStore} from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 
 
@@ -6,12 +6,13 @@ export default new createStore({
     namespaced: true,
     plugins: [createPersistedState({
         key: "nms",
-        paths: ['username', 'isLogin', 'id']
+        paths: ['username', 'isLogin', 'id', 'permission']
     })],
     state: {
         username: "",
         isLogin: false,
-        id: ""
+        id: "",
+        permission: []
     },
     mutations: {
         setUsername(state, username) {
@@ -23,5 +24,8 @@ export default new createStore({
         setId(state, id) {
             state.id = id
         },
+        setPermission(state, permission) {
+            state.permission = (typeof permission) === 'object' ? permission : []
+        }
     }
 })

@@ -3,7 +3,7 @@ const CompressionWebpackPlugin = require('compression-webpack-plugin');
 
 const AutoImport = require('unplugin-auto-import/webpack')
 const Components = require('unplugin-vue-components/webpack')
-const { ElementPlusResolver } = require('unplugin-vue-components/resolvers')
+const {ElementPlusResolver} = require('unplugin-vue-components/resolvers')
 
 
 const isProduction = process.env.NODE_ENV !== 'development';
@@ -22,8 +22,9 @@ module.exports = defineConfig({
                     test: new RegExp(
                         '\\.(' + productionGzipExtensions.join('|') + ')$'
                     ),
-                    threshold: 10240,
-                    minRatio: 0.9,
+                    threshold: 1024,
+                    // minRatio: 0.9,
+                    minRatio: 1,
                     deleteOriginalAssets: true
                 })
             )

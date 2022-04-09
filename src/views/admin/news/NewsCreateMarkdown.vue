@@ -7,9 +7,13 @@
           <el-button type="primary" class="right button" @click="submit">发布</el-button>
         </div>
         <div style="height: 10px"></div>
-        <mavon-editor class="center height editor" v-model="markdownData" :toolbars="toolbars" fontSize="17px"/>
+        <mavon-editor class="center height editor" v-model="markdownData" ref="mavon"
+                      @imgAdd="uploadFile" :toolbars="toolbars" fontSize="17px"/>
       </el-main>
     </el-container>
+  </div>
+  <div>
+
   </div>
 </template>
 
@@ -53,17 +57,65 @@ export default {
         preview: true, // 预览
       }
     }
-
   },
   methods: {
-    submit(){
-      if(this.title.trim()===''){
+    base64ToFile(data, fileName) {
+      let arr = data.split(',');
+      let mime = arr[0].match(/:(.*?);/)[1];
+      let bytes = atob(arr[1]); // 解码base64
+      let n = bytes.length
+      let ia = new Uint8Array(n);
+      while (n--) {
+        ia[n] = bytes.charCodeAt(n);
+      }
+      return new File([ia], fileName, {type: mime});
+    },
+    uploadFile(index, file) {
+      let that = this
+      let newFileName = Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2) + '.' +
+          file.name.substr(file.name.lastIndexOf('.') + 1)
+      file = this.base64ToFile(file.miniurl, newFileName)
+      axios({
+        method: 'get',
+        url: `/file/presigned_url/${newFileName}`
+      }).then(function (response) {
+        let respData = response['data']
+        if (Boolean(respData['status']) === true) {
+          let uploadUrl = respData['data']['url']
+          let form = new FormData()
+          form.append('image', file)
+          axios.put(uploadUrl, file).then(function () {
+            axios({
+              method: 'get',
+              url: `/file/url/${newFileName}`
+            }).then(function (response) {
+              respData = response['data']
+              if (Boolean(respData['status']) === true) {
+                that.$refs.mavon.$img2Url(index, respData['data']['url'])
+              } else {
+                ElMessage({
+                  message: '图片上传失败',
+                  type: 'error',
+                })
+              }
+            })
+          })
+        } else {
+          ElMessage({
+            message: '图片上传失败',
+            type: 'error',
+          })
+        }
+      })
+    },
+    submit() {
+      if (this.title.trim() === '') {
         ElMessage({
           message: '标题不能为空',
           type: 'error',
         })
         return
-      } else if(this.markdownData.trim()==='') {
+      } else if (this.markdownData.trim() === '') {
         ElMessage({
           message: '内容不能为空',
           type: 'error',
@@ -141,6 +193,6 @@ export default {
 .editor >>> .auto-textarea-input, .markdown-body, .v-note-wrapper {
   font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
   'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
-  z-index: 15;
+  z-index: 0;
 }
 </style>

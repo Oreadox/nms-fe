@@ -1,6 +1,7 @@
 <template>
   <div>
-    <el-tabs type="card" v-model="tab" @tab-click="switchTabMethod">
+    <!--    <el-tabs type="card" v-model="tab" @tab-click="switchTabMethod">-->
+    <el-tabs type="card" v-model="tab">
       <el-tab-pane label="我发布的新闻" name="my">
         <div>
           <el-table :data="newsDataFilter" stripe style="width: 100%"
@@ -9,7 +10,7 @@
             <el-table-column prop="title" label="标题" sortable>
               <template #default="scope">
                 <div @click="$router.push(`/news/${scope.row.id}`)" style="cursor: pointer">
-                  {{scope.row.title}}
+                  {{ scope.row.title }}
                 </div>
               </template>
             </el-table-column>
@@ -30,7 +31,7 @@
                 <el-popconfirm title="确定要删除吗？" icon-color="red" @confirm="deleteNews(scope.row['id'])"
                                confirmButtonText="确定" cancelButtonText="取消">
                   <template #reference>
-<!--                    <el-button size="small" type="danger" @click="deleteNews(scope.row['id'])">删除</el-button>-->
+                    <!--                    <el-button size="small" type="danger" @click="deleteNews(scope.row['id'])">删除</el-button>-->
                     <el-button size="small" type="danger">删除</el-button>
                   </template>
                 </el-popconfirm>
@@ -47,7 +48,7 @@
             <el-table-column prop="title" label="标题" sortable>
               <template #default="scope">
                 <div @click="$router.push(`/news/${scope.row.id}`)" style="cursor: pointer">
-                  {{scope.row.title}}
+                  {{ scope.row.title }}
                 </div>
               </template>
             </el-table-column>
@@ -201,9 +202,9 @@ export default {
         }
       })
     },
-    switchTabMethod(tab) {
-      console.log(tab.props.name)
-    }
+    // switchTabMethod(tab) {
+    //   console.log(tab.props.name)
+    // }
   }
 }
 </script>

@@ -141,7 +141,7 @@ export default {
               createTime: moment(admin['create_time']).format("YYYY-MM-DD HH:mm:ss"),
               permission: admin['permission']
             })
-            console.log(admin['permission'])
+            // console.log(admin['permission'])
           })
 
         } else {

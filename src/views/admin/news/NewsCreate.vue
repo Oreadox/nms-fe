@@ -24,8 +24,8 @@ export default {
   },
   methods: {
     submit() {
-      console.log(this.title)
-      console.log(this.content)
+      // console.log(this.title)
+      // console.log(this.content)
       if (this.title.trim() === '') {
         ElMessage({
           message: '标题不能为空',

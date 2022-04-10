@@ -8,7 +8,7 @@
             <el-button type="primary" class="right button" @click="submit">发布</el-button>
           </div>
           <div style="height: 10px"></div>
-          <mavon-editor class="center height editor" v-model="markdownData"
+          <mavon-editor class="center height editor" v-model="markdownData" ref="mavon"
                         @imgAdd="uploadFile" :toolbars="toolbars" fontSize="17px"/>
         </el-main>
       </el-container>

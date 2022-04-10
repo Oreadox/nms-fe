@@ -1,6 +1,7 @@
 <template>
   <div class="div">
-    <div v-for="news of newsList" :key="news" style="margin: 0 0 10px 0">
+    <el-empty v-if="newsList.length===0 || newsList===null" :image-size=220 description="无结果"/>
+    <div v-for="news of newsList" :key="news" style="margin: 0 0 10px 0" v-else>
       <el-card class="box-card" shadow="hover">
         <template #header>
           <div class="card-header" @click="$router.push(`/news/${news.id}`)">
@@ -8,7 +9,7 @@
           </div>
         </template>
         <div style="text-align: left">
-          {{ news.content.substring(0,100).replaceAll(/[:&\|\\\*^%$` #@\+-~]/g, "") }}......
+          {{ news.content.substring(0, 100).replaceAll(/[:&\|\\\*^%$` #@\+-~]/g, "") }}......
         </div>
       </el-card>
     </div>
@@ -27,6 +28,15 @@ export default {
       currentPage: 1,
     }
   },
+  props: {
+    url: {
+      require: true
+    },
+    disablePage: {
+      default: false,
+      type: Boolean
+    }
+  },
   created() {
     this.initData()
   },
@@ -35,7 +45,7 @@ export default {
       let that = this
       axios({
         method: 'get',
-        url: '/news/page/1',
+        url: !that.disablePage ? `${that.url}/page/1` : that.url,
       }).then(function (response) {
         var respData = response['data']
         if (Boolean(respData['status']) === true) {

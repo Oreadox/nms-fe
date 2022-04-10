@@ -2,7 +2,7 @@
   <div>
     <el-container >
       <el-main class="center">
-        <NewsPreviewComponents class="left"/>
+        <NewsPreviewComponents url="/news" class="left"/>
         <NewsPopularComponent class="right"/>
       </el-main>
     </el-container>

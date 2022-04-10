@@ -20,17 +20,17 @@
                       </template>
                       {{ newsData.authorUsername }}
                     </el-descriptions-item>
-<!--                    <el-descriptions-item>-->
-<!--                      <template #label>-->
-<!--                        <div>-->
-<!--                          <el-icon style="vertical-align: middle">-->
-<!--                            <iphone/>-->
-<!--                          </el-icon>-->
-<!--                          阅读量-->
-<!--                        </div>-->
-<!--                      </template>-->
-<!--                      {{ newsData.count }}-->
-<!--                    </el-descriptions-item>-->
+                    <!--                    <el-descriptions-item>-->
+                    <!--                      <template #label>-->
+                    <!--                        <div>-->
+                    <!--                          <el-icon style="vertical-align: middle">-->
+                    <!--                            <iphone/>-->
+                    <!--                          </el-icon>-->
+                    <!--                          阅读量-->
+                    <!--                        </div>-->
+                    <!--                      </template>-->
+                    <!--                      {{ newsData.count }}-->
+                    <!--                    </el-descriptions-item>-->
                     <el-descriptions-item>
                       <template #label>
                         <div>
@@ -53,8 +53,8 @@
               </div>
             </template>
             <mavon-editor v-model="newsData.content" :subfield="false" :boxShadow="false"
-                defaultOpen="preview" :toolbarsFlag="false" class="md"/>
-<!--            <div style="text-align: left">{{ newsData.content }}</div>-->
+                          defaultOpen="preview" :toolbarsFlag="false" class="md"/>
+            <!--            <div style="text-align: left">{{ newsData.content }}</div>-->
           </el-card>
         </div>
       </el-main>

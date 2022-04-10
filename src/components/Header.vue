@@ -5,7 +5,14 @@
         <div style="float: right; margin: 14px 70px">
           <el-row :gutter="8">
             <el-col :span="16">
-              <el-input style="float: left" placeholder="搜索新闻" suffix-icon="search"/>
+              <el-input style="float: left" placeholder="搜索新闻"
+                        v-model="search" @keyup.enter="gotoSearch">
+                <template #suffix>
+                  <el-icon @click="gotoSearch" class="el-input__icon">
+                    <search/>
+                  </el-icon>
+                </template>
+              </el-input>
             </el-col>
             <el-col :span="4"/>
             <el-col :span="4">
@@ -16,18 +23,18 @@
             </el-col>
           </el-row>
         </div>
-        <el-menu mode="horizontal" router>
+        <el-menu mode="horizontal" :default-active="getCurrentPage" router>
           <el-tooltip placement="bottom" effect="light" content="回到首页">
             <el-menu-item index="/index">首页</el-menu-item>
           </el-tooltip>
           <el-tooltip placement="bottom" effect="light" content="test">
-            <el-menu-item index="/recent">最新消息</el-menu-item>
+            <el-menu-item index="/news/latest">最新消息</el-menu-item>
           </el-tooltip>
           <el-tooltip placement="bottom" effect="light" content="test">
-            <el-menu-item index="/notice">信息公告</el-menu-item>
+            <el-menu-item index="/news/notice">信息公告</el-menu-item>
           </el-tooltip>
           <el-tooltip placement="bottom" effect="light" content="test">
-            <el-menu-item index="/academic">学术动态</el-menu-item>
+            <el-menu-item index="/news/academic">学术动态</el-menu-item>
           </el-tooltip>
           <!--          <el-tooltip placement="bottom" effect="light" content="后台" v-if="$store.state.isLogin">-->
           <!--            <el-menu-item index="/admin/news/list">发布审核新闻</el-menu-item>-->
@@ -59,10 +66,34 @@ export default {
         username: '',
         password: '',
         totpCode: ''
+      },
+      search: ''
+    }
+  },
+  computed: {
+    getCurrentPage() {
+      let path = this.$route.path
+      switch (path) {
+        case "/index":
+          return "/index"
+        case "/news/latest":
+          return "/news/latest"
+        case "/news/academic":
+          return "/news/academic"
+        default:
+          if (path.startsWith("/admin"))
+            return "/admin"
+          return ""
       }
     }
   },
   methods: {
+    gotoSearch() {
+      if (this.search.trim().length > 0) {
+        this.$router.push(`/news/search/${this.search.trim()}`)
+        this.search = ''
+      }
+    },
     setOpenLoginComponent(openLoginComponent) {
       this.openLoginComponent = openLoginComponent
     }

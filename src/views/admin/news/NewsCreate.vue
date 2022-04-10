@@ -4,6 +4,9 @@
               type="warning" style="margin-bottom: 10px" show-icon/>
     <div class="center">
       <el-input size="large" v-model="title" class="input left" placeholder="请输入标题"/>
+      <el-select v-model="tags" multiple placeholder="标签（可选）" class="tag tag_width tag_padding">
+        <el-option v-for="tag in availableTags" :key="tag.id" :label="tag.description" :value="tag.id"/>
+      </el-select>
       <el-button type="primary" class="right button" @click="submit">发布</el-button>
       <el-input v-model="content" :autosize="{ minRows: 20}" type="textarea" class="textarea"/>
     </div>
@@ -19,10 +22,40 @@ export default {
   data() {
     return {
       content: "",
-      title: ""
+      title: "",
+      tags: [],
+      availableTags: [],
     }
   },
+  created() {
+    this.initTagData()
+  },
   methods: {
+    initTagData() {
+      let that = this
+      axios({
+        method: 'get',
+        url: '/tag/all'
+      }).then(function (response) {
+        let respData = response['data']
+        if (Boolean(respData['status']) === true) {
+          let data = respData['data']
+          data.forEach(function (tag) {
+            that.availableTags.push({
+              id: tag['id'],
+              tagName: tag['tag_name'],
+              description: tag['description']
+            })
+            console.log(tag)
+          })
+        } else {
+          ElMessage({
+            message: '标签数据获取失败',
+            type: 'error',
+          })
+        }
+      })
+    },
     submit() {
       // console.log(this.title)
       // console.log(this.content)
@@ -46,7 +79,8 @@ export default {
         data: {
           title: that.title,
           content: that.content,
-          use_markdown: false
+          use_markdown: false,
+          tags: that.tags
         }
       }).then(function (response) {
         var respData = response['data']
@@ -72,14 +106,30 @@ export default {
 .input >>> .el-input__inner {
   font-size: 20px;
   font-weight: bolder;
-  height: 45px;
+  /*height: 45px;*/
+}
+
+.tag_width {
+  width: min(278px, 23%);
+  /*width: 300px;*/
+}
+
+.tag >>> .el-input__inner, .el-select {
+  display: inline-block;
+  margin-left: 5px;
+  height: 40px;
+  line-height: 40px
+}
+
+.tag_padding >>> .el-select__tags {
+  margin-left: 10px;
 }
 
 .left {
   position: relative;
   display: inline-block;
   vertical-align: middle;
-  width: min(1089px, 90%);
+  width: min(798px, 66%);
   /*float: left;*/
 }
 

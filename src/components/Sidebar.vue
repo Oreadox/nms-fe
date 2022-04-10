@@ -3,7 +3,7 @@
     <el-container>
       <el-aside style="width: 200px; flex-shrink: 0;" class="side border">
         <el-scrollbar>
-          <el-menu :default-openeds="['admin', 'news', 'user']" router>
+          <el-menu :default-openeds="['admin', 'news', 'user']" :default-active="getCurrentPage" router>
             <el-sub-menu index="admin">
               <template #title>
                 <el-icon>
@@ -59,6 +59,11 @@ export default {
   data() {
     return {
       currentUserPermission: []
+    }
+  },
+  computed: {
+    getCurrentPage() {
+      return this.$route.path
     }
   },
   created() {

@@ -2,7 +2,7 @@
   <div>
     <el-descriptions title="用户基础信息" :column="1" size="large" border>
       <template #extra>
-        <el-button type="primary">修改基础信息</el-button>
+        <el-button type="primary" @click="$router.push('/admin/modify/info')">修改基础信息</el-button>
       </template>
       <el-descriptions-item label-class-name="label_25percent">
         <template #label>
@@ -76,7 +76,7 @@
   <div style="margin-top: 20px">
     <el-descriptions title="用户安全信息" :column="1" size="large" border>
       <template #extra>
-        <el-button type="primary">修改安全信息</el-button>
+        <el-button type="primary" @click="$router.push('/admin/modify/security')">修改安全信息</el-button>
       </template>
       <el-descriptions-item label-class-name="label_25percent">
         <template #label>

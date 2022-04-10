@@ -1,18 +1,20 @@
 <template>
-  <el-form :model="loginForm" label-width="80px">
-    <el-form-item label="用户名">
-      <el-input v-model="loginForm.username"/>
-    </el-form-item>
-    <el-form-item label="密码">
-      <el-input v-model="loginForm.password" type="password"/>
-    </el-form-item>
-    <el-form-item label="动态口令">
-      <el-input v-model="loginForm.totpCode" placeholder="未设置可忽略" type="number"/>
-    </el-form-item>
-    <el-form-item>
-      <el-button type="primary" @click="submitLoginForm">登录</el-button>
-    </el-form-item>
-  </el-form>
+  <div>
+    <el-form :model="loginForm" label-width="80px">
+      <el-form-item label="用户名">
+        <el-input v-model="loginForm.username"/>
+      </el-form-item>
+      <el-form-item label="密码">
+        <el-input v-model="loginForm.password" type="password"/>
+      </el-form-item>
+      <el-form-item label="动态口令">
+        <el-input v-model="loginForm.totpCode" placeholder="未设置可忽略" type="number"/>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="submitLoginForm">登录</el-button>
+      </el-form-item>
+    </el-form>
+  </div>
 </template>
 
 
@@ -61,13 +63,14 @@ export default {
               that.$store.commit("setUsername", respData['data']['username'])
               that.$store.commit("setLogin", true)
               that.$store.commit("setId", respData['data']['id'])
-              that.$store.commit("setPermission",respData['data']['permission'] )
+              that.$store.commit("setPermission", respData['data']['permission'])
               that.$emit("setOpenLoginComponent", false)
               that.loginForm.username = ''
               that.loginForm.password = ''
               that.loginForm.totp = ''
             }
-          })} else {
+          })
+        } else {
           ElMessage({
             message: respData['message'],
             type: 'error',

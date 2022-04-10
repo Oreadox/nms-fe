@@ -43,8 +43,8 @@
                 </el-icon>
                 用户管理
               </template>
-                <el-menu-item index="/admin/user">管理用户</el-menu-item>
-                <el-menu-item index="/admin/user/add">新增用户</el-menu-item>
+              <el-menu-item index="/admin/user">管理用户</el-menu-item>
+              <el-menu-item index="/admin/user/add">新增用户</el-menu-item>
             </el-sub-menu>
           </el-menu>
         </el-scrollbar>
@@ -82,6 +82,7 @@ export default {
   background-color: white;
   border-right: solid 1px #dcdfe6
 }
+
 .border >>> .el-menu {
   border-right: none
 }

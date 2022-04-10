@@ -1,54 +1,56 @@
 <template>
-  <div class="div">
-    <el-container>
-      <el-header class="center">
-        <div style="float: right; margin: 14px 70px">
-          <el-row :gutter="8">
-            <el-col :span="16">
-              <el-input style="float: left" placeholder="搜索新闻"
-                        v-model="search" @keyup.enter="gotoSearch">
-                <template #suffix>
-                  <el-icon @click="gotoSearch" class="el-input__icon">
-                    <search/>
-                  </el-icon>
-                </template>
-              </el-input>
-            </el-col>
-            <el-col :span="4"/>
-            <el-col :span="4">
-              <el-button class="button" @click="$router.push('/admin/info')" v-if="$store.state.isLogin">
-                {{ $store.state.username }}
-              </el-button>
-              <el-button type="primary" @click="openLoginComponent=true" v-else class="button">管理员登录</el-button>
-            </el-col>
-          </el-row>
-        </div>
-        <el-menu mode="horizontal" :default-active="getCurrentPage" router>
-          <el-tooltip placement="bottom" effect="light" content="回到首页">
-            <el-menu-item index="/index">首页</el-menu-item>
-          </el-tooltip>
-          <el-tooltip placement="bottom" effect="light" content="test">
-            <el-menu-item index="/news/latest">最新消息</el-menu-item>
-          </el-tooltip>
-          <el-tooltip placement="bottom" effect="light" content="test">
-            <el-menu-item index="/news/notice">信息公告</el-menu-item>
-          </el-tooltip>
-          <el-tooltip placement="bottom" effect="light" content="test">
-            <el-menu-item index="/news/academic">学术动态</el-menu-item>
-          </el-tooltip>
-          <!--          <el-tooltip placement="bottom" effect="light" content="后台" v-if="$store.state.isLogin">-->
-          <!--            <el-menu-item index="/admin/news/list">发布审核新闻</el-menu-item>-->
-          <!--          </el-tooltip>-->
-          <el-tooltip placement="bottom" effect="light" content="后台" v-if="$store.state.isLogin">
-            <el-menu-item index="/admin">管理员后台</el-menu-item>
-          </el-tooltip>
-        </el-menu>
-      </el-header>
-      <el-divider style="margin: -2px"/>
-      <el-dialog v-model="openLoginComponent" width="600px" class="login">
-        <LoginComponent @setOpenLoginComponent="setOpenLoginComponent"></LoginComponent>
-      </el-dialog>
-    </el-container>
+  <div>
+    <div class="div">
+      <el-container>
+        <el-header class="center">
+          <div style="float: right; margin: 14px 70px">
+            <el-row :gutter="8">
+              <el-col :span="16">
+                <el-input style="float: left" placeholder="搜索新闻"
+                          v-model="search" @keyup.enter="gotoSearch">
+                  <template #suffix>
+                    <el-icon @click="gotoSearch" class="el-input__icon">
+                      <search/>
+                    </el-icon>
+                  </template>
+                </el-input>
+              </el-col>
+              <el-col :span="4"/>
+              <el-col :span="4">
+                <el-button class="button" @click="$router.push('/admin/info')" v-if="$store.state.isLogin">
+                  {{ $store.state.username }}
+                </el-button>
+                <el-button type="primary" @click="openLoginComponent=true" v-else class="button">管理员登录</el-button>
+              </el-col>
+            </el-row>
+          </div>
+          <el-menu mode="horizontal" :default-active="getCurrentPage" router>
+            <el-tooltip placement="bottom" effect="light" content="回到首页">
+              <el-menu-item index="/index">首页</el-menu-item>
+            </el-tooltip>
+            <el-tooltip placement="bottom" effect="light" content="最近发布的消息、新闻">
+              <el-menu-item index="/news/latest">最新消息</el-menu-item>
+            </el-tooltip>
+            <el-tooltip placement="bottom" effect="light" content="信息公告">
+              <el-menu-item index="/news/notice">信息公告</el-menu-item>
+            </el-tooltip>
+            <el-tooltip placement="bottom" effect="light" content="学术动态">
+              <el-menu-item index="/news/academic">学术动态</el-menu-item>
+            </el-tooltip>
+            <!--          <el-tooltip placement="bottom" effect="light" content="后台" v-if="$store.state.isLogin">-->
+            <!--            <el-menu-item index="/admin/news/list">发布审核新闻</el-menu-item>-->
+            <!--          </el-tooltip>-->
+            <el-tooltip placement="bottom" effect="light" content="后台" v-if="$store.state.isLogin">
+              <el-menu-item index="/admin">管理员后台</el-menu-item>
+            </el-tooltip>
+          </el-menu>
+        </el-header>
+        <el-divider style="margin: -2px"/>
+        <el-dialog v-model="openLoginComponent" width="600px" class="login">
+          <LoginComponent @setOpenLoginComponent="setOpenLoginComponent"></LoginComponent>
+        </el-dialog>
+      </el-container>
+    </div>
   </div>
 </template>
 

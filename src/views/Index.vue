@@ -41,6 +41,7 @@ export default {
   /*margin: 0 0 0 auto;*/
   display: inline-block;
   vertical-align: top;
+  margin-right: 40px;
   /*float: left;*/
 }
 .right{

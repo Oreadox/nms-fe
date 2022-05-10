@@ -57,7 +57,10 @@
               权限
             </div>
           </template>
-          <el-form-item>
+          <el-form-item v-if="!currentUserPermission.includes('*:*')" disabled>
+            若要赋予权限，请在创建用户后联系超级管理员
+          </el-form-item>
+          <el-form-item v-else>
             <el-checkbox-group v-model="formItem.permission">
               <el-checkbox label="news:newEdit">发布/编辑新闻</el-checkbox>
               <el-checkbox label="news:check">审核新闻</el-checkbox>
@@ -133,6 +136,7 @@ export default {
   name: "UserAddView",
   data() {
     return {
+      currentUserPermission: [],
       formItem: {
         username: '',
         password: "",
@@ -144,6 +148,9 @@ export default {
         permission: []
       }
     }
+  },
+  created() {
+    this.currentUserPermission = this.$store.state.permission
   },
   methods: {
     submit(){

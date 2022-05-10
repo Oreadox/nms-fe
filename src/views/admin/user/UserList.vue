@@ -35,18 +35,20 @@
           <el-input v-model="search" placeholder="搜索"/>
         </template>
         <template #default="scope">
-          <el-button size="small" type="primary"
-                     @click="openPermissionDialog(scope.row['id'],scope.row['username'],scope.row['permission'])">
-            赋予权限
-          </el-button>
-          <el-popconfirm title="确定要移除该用户权限吗？" icon-color="red"
-                         @confirm="removeAllPermission(scope.row['id'])"
-                         confirmButtonText="确定" cancelButtonText="取消">
-            <template #reference>
-              <el-button size="small" type="danger">移除权限</el-button>
-            </template>
-          </el-popconfirm>
-          <div style="margin: 5px"></div>
+          <div v-if="adminPermissions.includes('*:*')">
+            <el-button size="small" type="primary"
+                       @click="openPermissionDialog(scope.row['id'],scope.row['username'],scope.row['permission'])">
+              赋予权限
+            </el-button>
+            <el-popconfirm title="确定要移除该用户权限吗？" icon-color="red"
+                           @confirm="removeAllPermission(scope.row['id'])"
+                           confirmButtonText="确定" cancelButtonText="取消">
+              <template #reference>
+                <el-button size="small" type="danger">移除权限</el-button>
+              </template>
+            </el-popconfirm>
+            <div style="margin: 5px"></div>
+          </div>
           <el-popconfirm title="确定要重置密码吗？" icon-color="blue"
                          @confirm="resetPassword(scope.row['id'],scope.row['username'])"
                          confirmButtonText="确定" cancelButtonText="取消">
@@ -54,7 +56,7 @@
               <el-button size="small" type="primary">重置密码</el-button>
             </template>
           </el-popconfirm>
-          <el-popconfirm title="确定要删除吗？" icon-color="red" @confirm="deleteUser(scope.row['id'])"
+          <el-popconfirm title="该用户发布的新闻将被一并删除，确定要删除该用户吗？" icon-color="red" @confirm="deleteUser(scope.row['id'])"
                          confirmButtonText="确定" cancelButtonText="取消">
             <template #reference>
               <el-button size="small" type="danger">删除用户</el-button>
@@ -96,6 +98,7 @@ export default {
   name: "UserListView",
   data() {
     return {
+      adminPermissions: [],
       userData: [],
       search: '',
       currentUserId: '',
@@ -120,6 +123,7 @@ export default {
     },
   },
   created() {
+    this.adminPermissions = this.$store.state.permission
     this.initData()
   },
   methods: {

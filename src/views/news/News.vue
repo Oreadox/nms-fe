@@ -44,8 +44,9 @@
                     </el-descriptions-item>
                   </el-descriptions>
                   <el-button class="button" type="text"
-                             v-if="$store.state.permission.includes('news:newEdit') ||
-                                   $store.state.permission.includes('*:*')"
+                             v-if="$store.state.isLogin &&
+                                  ($store.state.permission.includes('news:newEdit') ||
+                                   $store.state.permission.includes('*:*'))"
                              @click="$router.push(`/admin/news/modify/${id}`)">
                     编辑
                   </el-button>

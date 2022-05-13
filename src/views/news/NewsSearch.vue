@@ -24,6 +24,7 @@ export default {
   created() {
     this.keyword = this.$route.params.keyword
     this.url = `/news/search/${this.keyword}`
+    document.title = `搜索新闻-${this.keyword}`
   },
   watch: {
     $route() {

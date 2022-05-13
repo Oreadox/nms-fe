@@ -127,7 +127,8 @@ export default {
     },
     uploadFile(index, file) {
       let that = this
-      let newFileName = Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2) + '.' +
+      let newFileName = Math.random().toString(36).slice(2) +
+          Math.random().toString(36).slice(2) + '.' +
           file.name.substr(file.name.lastIndexOf('.') + 1)
       file = this.base64ToFile(file.miniurl, newFileName)
       axios({
@@ -137,8 +138,6 @@ export default {
         let respData = response['data']
         if (Boolean(respData['status']) === true) {
           let uploadUrl = respData['data']['url']
-          let form = new FormData()
-          form.append('image', file)
           axios.put(uploadUrl, file).then(function () {
             axios({
               method: 'get',
@@ -177,7 +176,7 @@ export default {
         })
         return
       }
-      if (this.title.trim().length > 255) {
+      if (this.title.length > 255) {
         ElMessage({
           message: '标题太长',
           type: 'error',

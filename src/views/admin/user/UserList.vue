@@ -72,7 +72,7 @@
             <el-checkbox label="news:newEdit">发布/编辑新闻</el-checkbox>
             <el-checkbox label="news:check">审核新闻</el-checkbox>
             <el-checkbox label="user:*">用户管理</el-checkbox>
-            <el-tooltip placement="bottom" effect="light" content="包含前述所有权限">
+            <el-tooltip placement="bottom" effect="light" content="除包含前述所有权限外，还能赋予用户权限">
               <el-checkbox label="*:*">超级管理员</el-checkbox>
             </el-tooltip>
           </el-checkbox-group>
@@ -218,6 +218,7 @@ export default {
       })
     },
     deleteUser(id) {
+      let that = this
       axios({
         method: 'delete',
         url: `/admin/${id}`
@@ -228,6 +229,8 @@ export default {
             message: '删除成功',
             type: 'success',
           })
+          that.userData = []
+          that.initData()
         } else {
           ElMessage({
             message: respData['message'],

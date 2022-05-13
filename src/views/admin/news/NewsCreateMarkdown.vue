@@ -105,9 +105,12 @@ export default {
     },
     uploadFile(index, file) {
       let that = this
-      let newFileName = Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2) + '.' +
+      // 重命名文件
+      let newFileName = Math.random().toString(36).slice(2) +
+          Math.random().toString(36).slice(2) + '.' +
           file.name.substr(file.name.lastIndexOf('.') + 1)
       file = this.base64ToFile(file.miniurl, newFileName)
+      // 请求预授权URL
       axios({
         method: 'get',
         url: `/file/presigned_url/${newFileName}`
@@ -115,15 +118,16 @@ export default {
         let respData = response['data']
         if (Boolean(respData['status']) === true) {
           let uploadUrl = respData['data']['url']
-          let form = new FormData()
-          form.append('image', file)
+          // 上传文件到COS
           axios.put(uploadUrl, file).then(function () {
+            // 请求文件下载URL
             axios({
               method: 'get',
               url: `/file/url/${newFileName}`
             }).then(function (response) {
               respData = response['data']
               if (Boolean(respData['status']) === true) {
+                // 返回对应的文件下载URL供下载
                 that.$refs.mavon.$img2Url(index, respData['data']['url'])
               } else {
                 ElMessage({
@@ -155,7 +159,7 @@ export default {
         })
         return
       }
-      if (this.title.trim().length > 255) {
+      if (this.title.length > 255) {
         ElMessage({
           message: '标题太长',
           type: 'error',

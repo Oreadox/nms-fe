@@ -13,7 +13,7 @@
             </div>
           </template>
           <div style="text-align: left">
-            {{ news.content.substring(0, 100).replaceAll(/[:&\|\\\*^%$` #@\+-~]/g, "") }}......
+            {{ news.content.substring(0, 100).replaceAll(/[:&\|\\\*^%$()`!#@\+-~]/g, "") }}......
           </div>
         </el-card>
       </div>

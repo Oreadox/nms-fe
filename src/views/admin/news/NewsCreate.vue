@@ -72,7 +72,7 @@ export default {
         })
         return
       }
-      if (this.title.trim().length > 255) {
+      if (this.title.length > 255) {
         ElMessage({
           message: '标题太长',
           type: 'error',
